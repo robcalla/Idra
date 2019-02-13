@@ -70,7 +70,7 @@
         			}
         		});
 
-        		var end=(tags[0].values.length>50)?50:tags[0].values.length;
+        		var end=(tags[0].values.length>30)?30:tags[0].values.length;
         		for(i=0; i<end; i++){
         			var t=tags[0].values[i];
         			originWords.push({text: t.keyword, count: parseInt(t.facet.substring(t.facet.indexOf("(")+1,t.facet.indexOf(")")))});
