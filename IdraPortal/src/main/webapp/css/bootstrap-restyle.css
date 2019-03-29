@@ -240,8 +240,8 @@ a {
 .pagination > .active > span:focus {
 /*   background-color: #5e4354; */
 /*   border-color: #5e4354; */
-  background-color: #00b4ff;
-  border-color: #00b4ff;
+  background-color: #8baf27;
+  border-color: #8baf27;
   color: #fff;
 }
 .pagination > li > a, .pagination > li > span {
@@ -322,7 +322,7 @@ a {
 }
 
 md-checkbox.md-checked.blue .md-icon {
- background-color: #00b4ff;
+ background-color: #8baf27;
 }
 
 .nav-tabs {

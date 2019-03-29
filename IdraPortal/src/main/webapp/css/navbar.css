@@ -35,7 +35,7 @@
   	/*   	background-color: #4A2E40; */
   	background-color: #ffffff;
   	border: 0 none;
-  	border-bottom: 3px solid #00b4ff;
+  	border-bottom: 3px solid #8baf27;
   	border-radius: 0;
 /* 	box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.25); */
 /* 	-webkit-box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.25); */
@@ -61,7 +61,7 @@
 }
 
 #header div.navbar.navbar-default .btn.btn-default {
-  background-color: #00b4ff;
+  background-color: #8baf27;
   border: 0 none;
   border-radius: 2px;
   box-shadow: none;
@@ -93,12 +93,12 @@
 }
 #header div.navbar.navbar-default .navbar-nav li a:hover {
   /*   color: #e94f1d; */
-  color: #00b4ff;
+  color: #8baf27;
 }
 #header div.navbar.navbar-default .navbar-nav li.active > a {
   /*   color: #e94f1d; */
   	outline: none;
-    color: #00b4ff;
+    color: #8baf27;
 /*     border-bottom: 1px solid #555; */
 /*     padding-bottom:0px; */
 }
@@ -117,7 +117,7 @@
 .navbar.navbar .dropdown-menu .active > a, 
 .navbar-default.navbar .dropdown-menu .active > a {
   background-color: transparent;
-  color: #00b4ff !important;
+  color: #8baf27 !important;
 }
 
 #header .navbar .navbar-toggle .icon-bar {
@@ -149,7 +149,7 @@
 
 .navbar .navbar-toggle, .navbar .navbar-toggle:hover,
  .navbar .navbar-toggle:focus {
-    background-color: #00b4ff;
+    background-color: #8baf27;
 }
 
 .navbar-brand {

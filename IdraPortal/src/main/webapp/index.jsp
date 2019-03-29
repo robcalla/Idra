@@ -286,14 +286,14 @@ div.m-app-loading p {
 			<div class="messaging hide-xs show-gt-xs">
 				<img class="img-responsive " src="images/logo_bigclout.png"
 					style="margin: 0 auto; max-width: 20%;">
-				<img class="img-responsive " src="images/spinner_synchro.gif"
-					style="margin: 0 auto; max-width: 2%;">
+				<p style="margin-top: 10px;">Loading Open Data
+                                                                Catalogue</p>
 			</div>
 			<div class="messaging hide-gt-xs">
 				<img class="img-responsive " src="images/logo_bigclout.png"
 					style="margin: 0 auto; max-width: 50%;">
-				<img class="img-responsive " src="images/spinner_synchro.gif"
-					style="margin: 0 auto; max-width: 10%;">
+				<p style="margin-top: 10px;">Loading Open Data
+                                                                Catalogue</p>
 			</div>
 			<!--         END: Actual animated container. -->
 		</div>
@@ -415,7 +415,7 @@ div.m-app-loading p {
 			ng-controller="ContentCTRL">
 
 			<div class="us-spinner-wrapper" ng-show="spinneractive">
-				<div us-spinner="{radius:25, width:10, length: 20,color:'#00b4ff'}"
+				<div us-spinner="{radius:25, width:10, length: 20,color:'#8baf27'}"
 					spinner-key="spinner-1"></div>
 			</div>
 			<div class="col-md-10 col-md-offset-1" ng-controller="AlertCtrl">
