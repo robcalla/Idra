@@ -319,7 +319,7 @@ div.m-app-loading p {
 							<span class="icon-bar"></span>
 						</button>
 					</div>
-					<div class="navbar-collapse collapse navbar-responsive-collapse" ng-class="{ 'in': isOpen }">
+					<div class="navbar-collapse collapse" ng-class="{ 'in': isOpen }">
 						<ul class="nav navbar-nav navbar-right">
 							<li
 								ng-class="{ active: isActive('/metadata') || isActive('/showDatasets') || isActive('/showDatasetDetail') || isActive('/createDatalet') }"><a
@@ -331,22 +331,22 @@ div.m-app-loading p {
 								href="#/viewCatalogues"><strong>{{'DataSources' | translate }}</strong></a></li>
 							<li ng-class="{ active: isActive('/statistics')}"><a
 								href="#/statistics"><strong>{{'statistics' | translate }}</strong></a></li>
-							<li dropdown><a href class="dropdown-toggle" dropdown-toggle><strong>Help</strong><b
-									class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li>
-										<a href="#/about" ng-click="isOpen=!isOpen"><strong>About</strong></a>
-									</li>
-									<li>
-										<a href="https://idraopendata.docs.apiary.io" target="_blank" ng-click="isOpen=!isOpen"><strong>API</strong></a>
-									</li>
-									<li>
-										<a href="https://github.com/OPSILab/Idra" target="_blank" ng-click="isOpen=!isOpen"><strong>GitHub</strong></a>
-									</li>
-									<li>
-										<a href="https://idra.readthedocs.io" target="_blank" ng-click="isOpen=!isOpen"><strong>{{'helpMenuManual' | translate }}</strong></a>
-									</li>
-								</ul></li>
+<!-- 							<li dropdown><a href class="dropdown-toggle" dropdown-toggle><strong>Help</strong><b -->
+<!-- 									class="caret"></b></a> -->
+<!-- 								<ul class="dropdown-menu"> -->
+<!-- 									<li> -->
+<!-- 										<a href="#/about" ng-click="isOpen=!isOpen"><strong>About</strong></a> -->
+<!-- 									</li> -->
+<!-- 									<li> -->
+<!-- 										<a href="https://idraopendata.docs.apiary.io" target="_blank" ng-click="isOpen=!isOpen"><strong>API</strong></a> -->
+<!-- 									</li> -->
+<!-- 									<li> -->
+<!-- 										<a href="https://github.com/OPSILab/Idra" target="_blank" ng-click="isOpen=!isOpen"><strong>GitHub</strong></a> -->
+<!-- 									</li> -->
+<!-- 									<li> -->
+<!-- 										<a href="https://idra.readthedocs.io" target="_blank" ng-click="isOpen=!isOpen"><strong>{{'helpMenuManual' | translate }}</strong></a> -->
+<!-- 									</li> -->
+<!-- 								</ul></li> -->
 							<li ng-if="token!=undefined"
 								ng-class="{ active: isActive('/catalogues') || isActive('/node') || isActive('/configuration') || isActive('/logs') || isActive('/statistics') || isActive('/dataletsManagement')}"
 								dropdown><a href class="dropdown-toggle" dropdown-toggle><strong>{{'administration' | translate }}</strong><b
