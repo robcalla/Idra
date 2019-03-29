@@ -20,6 +20,7 @@ package it.eng.idra.api;
 import it.eng.idra.beans.Datalet;
 import it.eng.idra.beans.ErrorResponse;
 import it.eng.idra.beans.EuroVocLanguage;
+import it.eng.idra.beans.ODFProperty;
 import it.eng.idra.beans.OrderBy;
 import it.eng.idra.beans.OrderType;
 import it.eng.idra.beans.dcat.DCATAPFormat;
@@ -52,12 +53,14 @@ import it.eng.idra.search.SPARQLFederatedSearch;
 import it.eng.idra.utils.CommonUtil;
 import it.eng.idra.utils.GsonUtil;
 import it.eng.idra.utils.GsonUtilException;
+import it.eng.idra.utils.PropertyManager;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -67,7 +70,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -101,8 +103,6 @@ import org.json.JSONObject;
 
 import org.apache.logging.log4j.*;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.tika.parser.txt.CharsetDetector;
-import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
 @Path("/client")
@@ -559,8 +559,12 @@ public class ClientAPI {
 		
 		logger.info("Download file API: "+downloadFile);
 		String compiledUri = url;
-		client = ClientBuilder.newBuilder().connectTimeout(5, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS).build();
-//		client = ClientBuilder.newClient();
+		//client = ClientBuilder.newBuilder().readTimeout(10, TimeUnit.SECONDS).build();
+		int timeout = Integer.parseInt(PropertyManager.getProperty(ODFProperty.PREVIEW_TIMEOUT))*1000;
+		client = ClientBuilder.newClient();
+		client.property(ClientProperties.CONNECT_TIMEOUT, timeout);
+	    client.property(ClientProperties.READ_TIMEOUT,    timeout);
+	    
 		try {
 			WebTarget webTarget = client.target(compiledUri);
 			Response request = webTarget.request().get();
@@ -571,9 +575,9 @@ public class ClientAPI {
 				
 				if(StringUtils.isNotBlank(format) && format.toLowerCase().contains("csv")) {
 					InputStream stream = new BufferedInputStream((InputStream) request.getEntity());
-					CharsetDetector charDetector = new CharsetDetector();
-					charDetector.setText(stream);
-					responseBuilder.entity(new InputStreamReader(stream,charDetector.detect().getName()));
+//					CharsetDetector charDetector = new CharsetDetector();
+//					charDetector.setText(stream);
+					responseBuilder.entity(new InputStreamReader(stream,StandardCharsets.ISO_8859_1));
 				}else {
 					responseBuilder.entity(new StreamingOutput() {
 						@Override
@@ -596,7 +600,7 @@ public class ClientAPI {
 			if(isPreview) {
 				try {
 					//TO-DO: renderlo configurabile
-					long previewLimit = 10*1000*1000; //10MB
+					long previewLimit = Integer.parseInt(PropertyManager.getProperty(ODFProperty.PREVIEW_TIMEOUT))*1024*1024; //10MB
 					long dimension=0L;
 					for (String k : keys) {
 

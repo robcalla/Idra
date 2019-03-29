@@ -7,7 +7,6 @@
 [![](https://nexus.lab.fiware.org/repository/raw/public/badges/chapters/data-publication.svg)](https://www.fiware.org/developers/catalogue/)
 [![License badge](https://img.shields.io/github/license/OPSILab/Idra.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![Docker Pulls](https://img.shields.io/docker/pulls/idraopendata/idra.svg)](https://hub.docker.com/r/idraopendata/idra/)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frobcalla%2FIdra.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frobcalla%2FIdra?ref=badge_shield)
 [![](https://img.shields.io/badge/tag-fiware-orange.svg?logo=stackoverflow)](http://stackoverflow.com/questions/tagged/fiware)
 <br>
 [![Documentation badge](https://img.shields.io/readthedocs/idra.svg)](https://idra.readthedocs.io/en/latest/)
@@ -43,6 +42,9 @@ founded project [FESTIVAL](http://www.festival-project.eu/). This project is
 part of [FIWARE](https://www.fiware.org/). For more information check the FIWARE
 Catalogue entry for
 [Data Publication](https://github.com/Fiware/catalogue/tree/master/data-publication). The roadmap of this FIWARE GE is described [here](./roadmap.md)
+
+| :books: [Documentation](https://idra.rtfd.io/) | :whale: [Docker Hub](https://hub.docker.com/r/idraopendata/idra) | :dart: [Roadmap](./roadmap.md) |
+|---|---|---|
 
 ## Content
 
@@ -96,20 +98,24 @@ to provide feedback.
 
 ## License
 
-Idra - Open Data Federation Platform © 2018 Engineering Ingegneria Informatica
-S.p.A.
+Idra - Open Data Federation Platform is licensed under [Affero General Public License (GPL)
+version 3](./LICENSE).
 
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU Affero General Public License as published by the Free
-Software Foundation, either version 3 of the License, or at your option) any
-later version.
+© 2019 Engineering Ingegneria Informatica S.p.A.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+### Are there any legal issues with AGPL 3.0? Is it safe for me to use?
 
-You should have received a copy of the GNU Affero General Public License along
-with this program. If not, see <http://www.gnu.org/licenses/>.
+There is absolutely no problem in using a product licensed under AGPL 3.0. Issues with GPL 
+(or AGPL) licenses are mostly related with the fact that different people assign different 
+interpretations on the meaning of the term “derivate work” used in these licenses. Due to this,
+some people believe that there is a risk in just _using_ software under GPL or AGPL licenses
+(even without _modifying_ it).
 
+For the avoidance of doubt, the owners of this software licensed under an AGPL-3.0 license  
+wish to make a clarifying public statement as follows:
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frobcalla%2FIdra.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frobcalla%2FIdra?ref=badge_large)
+> Please note that software derived as a result of modifying the source code of this
+> software in order to fix a bug or incorporate enhancements is considered a derivative 
+> work of the product. Software that merely uses or aggregates (i.e. links to) an otherwise 
+> unmodified version of existing software is not considered a derivative work, and therefore
+> it does not need to be released as under the same license, or even released as open source.

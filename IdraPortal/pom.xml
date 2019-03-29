@@ -28,7 +28,6 @@
 		<!-- <version>3.8.1</version> -->
 		<!-- <scope>test</scope> -->
 		<!-- </dependency> -->
-		<!-- https://mvnrepository.com/artifact/servlets.com/cos -->
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 			<groupId>org.json</groupId>
