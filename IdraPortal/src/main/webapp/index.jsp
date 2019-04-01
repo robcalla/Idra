@@ -27,7 +27,7 @@
 
 <!-- <link rel="shortcut icon" type="image/png" href="images/icons/favicon-32x32.png"/> -->
 <link rel="shortcut icon" type="image/png" href="images/logo_bigclout.png">
-<title>BigClout - Idra</title>
+<title>BigClouT - Idra</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
