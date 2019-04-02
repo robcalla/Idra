@@ -28,16 +28,18 @@ public class SearchFacet {
 	private String facet;
 	private String keyword;
 	private String search_value;
+	private long count;
 	
 	public SearchFacet(){
 		
 	}
 
-	public SearchFacet(String facet, String keywordQuery,String search_value) {
+	public SearchFacet(String facet, String keywordQuery,String search_value,long count) {
 		super();
 		this.facet = facet;
 		this.keyword = keywordQuery;
 		this.search_value = search_value;
+		this.count = count;
 	}
 
 	public SearchFacet(Count c){
@@ -45,6 +47,7 @@ public class SearchFacet {
 		this.facet = c.toString();
 		this.keyword = c.getName();
 		this.search_value = c.getName();
+		this.count = c.getCount();
 	}
 	
 	public SearchFacet(Count c,String category){
@@ -73,6 +76,8 @@ public class SearchFacet {
 			this.keyword = c.getName();
 			this.search_value = c.getName();
 		}
+		
+		this.count=c.getCount();
 	}
 	
 	public String getFacet() {
@@ -97,6 +102,14 @@ public class SearchFacet {
 
 	public void setSearch_value(String search_value) {
 		this.search_value = search_value;
+	}
+
+	public long getCount() {
+		return count;
+	}
+
+	public void setCount(long count) {
+		this.count = count;
 	}
 
 	@Override
