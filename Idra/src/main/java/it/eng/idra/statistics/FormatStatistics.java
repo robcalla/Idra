@@ -1,5 +1,7 @@
 package it.eng.idra.statistics;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FormatStatistics {
 	
 	private String format;
@@ -11,6 +13,7 @@ public class FormatStatistics {
 	
 	public FormatStatistics(String format, int cnt) {
 		super();
+		if(StringUtils.isBlank(format)) format="undefined";
 		this.format = format;
 		this.cnt = cnt;
 	}

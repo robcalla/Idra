@@ -38,12 +38,14 @@ public class StatisticsAPI {
 			if(StringUtils.isNotBlank(catalogueID)) {
 				
 			}
-						
-			if(StringUtils.isBlank(endDate)) { 
+			
+			if(StringUtils.isBlank(endDate) && StringUtils.isBlank(startDate)) { 
 				ZonedDateTime end = ZonedDateTime.now();
 				ZonedDateTime start = end.minusDays(7);
 				endDate = end.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString();
-				startDate=start.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString();;
+				startDate=start.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString();
+			}else if(StringUtils.isBlank(endDate) && StringUtils.isNotBlank(startDate)) {
+				endDate =  ZonedDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString();
 			}
 			
 			PlatformStatistcs stat= PlatformStatisticsManager.getCatalogueStatistics(catalogueID, startDate, endDate);
