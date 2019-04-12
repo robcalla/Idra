@@ -1172,87 +1172,87 @@ public class AdministrationAPI {
 
 	}
 
-	@GET
-	@Secured
-	@Path("/dcat-ap/dump/download")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response downloadDatasetDump(@Context HttpServletRequest httpRequest,
-			@DefaultValue("false") @QueryParam("forceDump") Boolean forceDump,
-			@DefaultValue("false") @QueryParam("zip") Boolean returnZip) {
-
-		try {
-
-			return Response
-					.ok(DCATAPDumpManager.getDatasetDumpFromFile(null, forceDump, returnZip),
-							MediaType.APPLICATION_OCTET_STREAM)
-					.header("content-disposition",
-							"attachment; filename = " + DCATAPDumpManager.dumpFileName + (returnZip ? ".zip" : ""))
-					.build();
-
-		} catch (Exception e) {
-			return handleErrorResponse500(e);
-		}
-
-	}
-
-	@GET
-	@Secured
-	@Path("/dcat-ap/dump")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getDatasetDump(@Context HttpServletRequest httpRequest,
-			@DefaultValue("false") @QueryParam("forceDump") Boolean forceDump) {
-
-		try {
-
-			return Response.ok(DCATAPDumpManager.getDatasetDumpFromFile(null, forceDump, false)).build();
-
-		} catch (Exception e) {
-			return handleErrorResponse500(e);
-		}
-
-	}
-
-	@GET
-	@Secured
-	@Path("/dcat-ap/dump/download/{nodeID}")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response downloadDatasetDumpByODMSCatalogue(@Context HttpServletRequest httpRequest,
-			@PathParam("nodeID") String nodeID, @DefaultValue("false") @QueryParam("forceDump") Boolean forceDump,
-			@DefaultValue("false") @QueryParam("zip") Boolean returnZip) {
-
-		try {
-
-			return Response
-					.ok(DCATAPDumpManager.getDatasetDumpFromFile(nodeID, forceDump, returnZip),
-							MediaType.APPLICATION_OCTET_STREAM)
-					.header("content-disposition",
-							"attachment; filename = " + DCATAPDumpManager.dumpFileName
-									+ (StringUtils.isBlank(nodeID) ? "" : new String("_node_" + nodeID))
-									+ (returnZip ? ".zip" : ""))
-					.build();
-
-		} catch (Exception e) {
-			return handleErrorResponse500(e);
-		}
-
-	}
-
-	@GET
-	@Secured
-	@Path("/dcat-ap/dump/{nodeID}")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getDatasetDumpByODMSCatalogue(@Context HttpServletRequest httpRequest,
-			@DefaultValue("false") @QueryParam("forceDump") Boolean forceDump, @PathParam("nodeID") String nodeID) {
-
-		try {
-
-			return Response.ok(DCATAPDumpManager.getDatasetDumpFromFile(nodeID, forceDump, false)).build();
-
-		} catch (Exception e) {
-			return handleErrorResponse500(e);
-		}
-
-	}
+//	@GET
+//	@Secured
+//	@Path("/dcat-ap/dump/download")
+//	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+//	public Response downloadDatasetDump(@Context HttpServletRequest httpRequest,
+//			@DefaultValue("false") @QueryParam("forceDump") Boolean forceDump,
+//			@DefaultValue("false") @QueryParam("zip") Boolean returnZip) {
+//
+//		try {
+//
+//			return Response
+//					.ok(DCATAPDumpManager.getDatasetDumpFromFile(null, forceDump, returnZip),
+//							MediaType.APPLICATION_OCTET_STREAM)
+//					.header("content-disposition",
+//							"attachment; filename = " + DCATAPDumpManager.dumpFileName + (returnZip ? ".zip" : ""))
+//					.build();
+//
+//		} catch (Exception e) {
+//			return handleErrorResponse500(e);
+//		}
+//
+//	}
+//
+//	@GET
+//	@Secured
+//	@Path("/dcat-ap/dump")
+//	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//	public Response getDatasetDump(@Context HttpServletRequest httpRequest,
+//			@DefaultValue("false") @QueryParam("forceDump") Boolean forceDump) {
+//
+//		try {
+//
+//			return Response.ok(DCATAPDumpManager.getDatasetDumpFromFile(null, forceDump, false)).build();
+//
+//		} catch (Exception e) {
+//			return handleErrorResponse500(e);
+//		}
+//
+//	}
+//
+//	@GET
+//	@Secured
+//	@Path("/dcat-ap/dump/download/{nodeID}")
+//	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+//	public Response downloadDatasetDumpByODMSCatalogue(@Context HttpServletRequest httpRequest,
+//			@PathParam("nodeID") String nodeID, @DefaultValue("false") @QueryParam("forceDump") Boolean forceDump,
+//			@DefaultValue("false") @QueryParam("zip") Boolean returnZip) {
+//
+//		try {
+//
+//			return Response
+//					.ok(DCATAPDumpManager.getDatasetDumpFromFile(nodeID, forceDump, returnZip),
+//							MediaType.APPLICATION_OCTET_STREAM)
+//					.header("content-disposition",
+//							"attachment; filename = " + DCATAPDumpManager.dumpFileName
+//									+ (StringUtils.isBlank(nodeID) ? "" : new String("_node_" + nodeID))
+//									+ (returnZip ? ".zip" : ""))
+//					.build();
+//
+//		} catch (Exception e) {
+//			return handleErrorResponse500(e);
+//		}
+//
+//	}
+//
+//	@GET
+//	@Secured
+//	@Path("/dcat-ap/dump/{nodeID}")
+//	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//	public Response getDatasetDumpByODMSCatalogue(@Context HttpServletRequest httpRequest,
+//			@DefaultValue("false") @QueryParam("forceDump") Boolean forceDump, @PathParam("nodeID") String nodeID) {
+//
+//		try {
+//
+//			return Response.ok(DCATAPDumpManager.getDatasetDumpFromFile(nodeID, forceDump, false)).build();
+//
+//		} catch (Exception e) {
+//			return handleErrorResponse500(e);
+//		}
+//
+//	}
 
 	@DELETE
 	@Path("/catalogues/{nodeID}/dataset/{datasetID}/distribution/{distributionID}/deleteDatalet/{dataletID}")
