@@ -365,7 +365,7 @@ public class CKANUtils {
 
 	public static String toCkanDate(String date) throws ParseException {
 		SimpleDateFormat ISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-		return new Timestamp(ISO.parse(date).getTime()).toString().replace(" ", "T");
+		return new Timestamp(ISO.parse(date).getTime()).toString().replace(" ", "T")+"00000";
 	}
 
 	public static String manageQuery(String query, String separator){
