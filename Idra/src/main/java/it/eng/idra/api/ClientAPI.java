@@ -55,6 +55,7 @@ import it.eng.idra.utils.CommonUtil;
 import it.eng.idra.utils.GsonUtil;
 import it.eng.idra.utils.GsonUtilException;
 import it.eng.idra.utils.PropertyManager;
+import it.eng.idra.utils.RedirectFilter;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -104,6 +105,7 @@ import org.json.JSONObject;
 
 import org.apache.logging.log4j.*;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.tika.parser.txt.CharsetDetector;
 import org.glassfish.jersey.client.ClientProperties;
 
 @Path("/client")
@@ -562,7 +564,7 @@ public class ClientAPI {
 		String compiledUri = url;
 		//client = ClientBuilder.newBuilder().readTimeout(10, TimeUnit.SECONDS).build();
 		int timeout = Integer.parseInt(PropertyManager.getProperty(ODFProperty.PREVIEW_TIMEOUT))*1000;
-		client = ClientBuilder.newClient();
+		client = ClientBuilder.newClient().register(RedirectFilter.class);
 		client.property(ClientProperties.CONNECT_TIMEOUT, timeout);
 	    client.property(ClientProperties.READ_TIMEOUT,    timeout);
 	    
@@ -576,9 +578,9 @@ public class ClientAPI {
 				
 				if(StringUtils.isNotBlank(format) && format.toLowerCase().contains("csv")) {
 					InputStream stream = new BufferedInputStream((InputStream) request.getEntity());
-//					CharsetDetector charDetector = new CharsetDetector();
-//					charDetector.setText(stream);
-					responseBuilder.entity(new InputStreamReader(stream,StandardCharsets.ISO_8859_1));
+					CharsetDetector charDetector = new CharsetDetector();
+					charDetector.setText(stream);
+					responseBuilder.entity(new InputStreamReader(stream,charDetector.detect().getName()));
 				}else {
 					responseBuilder.entity(new StreamingOutput() {
 						@Override
@@ -923,7 +925,7 @@ public class ClientAPI {
 				return Response.status(Response.Status.OK).entity(GsonUtil.obj2JsonWithExclude(result, GsonUtil.nodeType)).build();
 			else {
 				ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found");
-				return Response.status(Response.Status.NOT_FOUND).entity(GsonUtil.obj2Json(err, GsonUtil.errorResponseSetType)).build();
+				return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();
 			}
 
 		} catch (NumberFormatException e) {
@@ -934,28 +936,37 @@ public class ClientAPI {
 			return handleErrorResponse500(e);
 		} catch (ODMSCatalogueNotFoundException e) {
 			// TODO Auto-generated catch block
-			return handleBadRequestErrorResponse(e);
+			ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found");
+			return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();
 		} catch (ODMSManagerException e) {
 			// TODO Auto-generated catch block
 			return handleBadRequestErrorResponse(e);
 		}
 	}
 	
-	/*
+	
 	@GET
 	@Path("/catalogues/{nodeID}/datasets")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces("application/json")
-	public Response getCatalogueDatasets(@Context HttpServletRequest httpRequest,@PathParam("nodeID") String nodeID) {
+	public Response getCatalogueDatasets(@Context HttpServletRequest httpRequest,@PathParam("nodeID") String nodeID,@QueryParam("rows") @DefaultValue("1000") int rows,@QueryParam("start") @DefaultValue("0") int start) {
 
 		try {
+					
 			ODMSCatalogue cat= FederationCore.getODMSCatalogue(Integer.parseInt(nodeID));
+			
+			if(rows>1000) {
+				ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()), "Rows maximum value is 1000", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Rows maximum value is 1000");
+				return Response.status(Response.Status.BAD_REQUEST).entity(err.toJson()).build();
+			}
+			
 			if(cat.isActive()) {
-				List<DCATDataset> result = MetadataCacheManager.getAllDatasetsByODMSCatalogue(Integer.parseInt(nodeID));
-				return Response.status(Response.Status.OK).entity(GsonUtil.obj2Json(result, GsonUtil.datasetListType)).build();
+				SearchResult result = MetadataCacheManager.getAllDatasetsByODMSCatalogue(Integer.parseInt(nodeID),rows,start);
+				result.setFacets(null);
+				return Response.status(Response.Status.OK).entity(GsonUtil.obj2Json(result, GsonUtil.searchResultType)).build();
 			}else {
 				ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found");
-				return Response.status(Response.Status.NOT_FOUND).entity(GsonUtil.obj2Json(err, GsonUtil.errorResponseSetType)).build();
+				return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();
 			}
 
 		} catch (NumberFormatException e) {
@@ -975,7 +986,8 @@ public class ClientAPI {
 			return handleErrorResponse500(e);
 		} catch (ODMSCatalogueNotFoundException e) {
 			// TODO Auto-generated catch block
-			return handleBadRequestErrorResponse(e);
+			ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found");
+			return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();
 		}
 	}
 
@@ -991,10 +1003,15 @@ public class ClientAPI {
 			ODMSCatalogue cat= FederationCore.getODMSCatalogue(Integer.parseInt(nodeID));
 			if(cat.isActive()) {
 				DCATDataset result = MetadataCacheManager.getDatasetByID(datasetID);
-				return Response.status(Response.Status.OK).entity(GsonUtil.obj2Json(result, GsonUtil.datasetType)).build();
+				if(result.getNodeID().equals(nodeID))
+					return Response.status(Response.Status.OK).entity(GsonUtil.obj2Json(result, GsonUtil.datasetType)).build();
+				else {
+					ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Dataset with id: "+datasetID+" not found for catalogue: "+nodeID, String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found");
+					return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();	
+				}
 			}else {
 				ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Catalogues with id: "+nodeID+" not found");
-				return Response.status(Response.Status.NOT_FOUND).entity(GsonUtil.obj2Json(err, GsonUtil.errorResponseSetType)).build();
+				return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();
 			}
 	
 		} catch (NumberFormatException e) {
@@ -1016,7 +1033,7 @@ public class ClientAPI {
 			// TODO Auto-generated catch block
 			return handleBadRequestErrorResponse(e);
 		}
-	}*/
+	}
 	
 	@GET
 	@Path("/datasets/{id}")
@@ -1031,7 +1048,7 @@ public class ClientAPI {
 			}catch (DatasetNotFoundException e) {
 				// TODO Auto-generated catch block
 				ErrorResponse err = new ErrorResponse(String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Dataset with id: "+id+" not found", String.valueOf(Response.Status.NOT_FOUND.getStatusCode()), "Dataset with id: "+id+" not found");
-				return Response.status(Response.Status.NOT_FOUND).entity(GsonUtil.obj2Json(err, GsonUtil.errorResponseSetType)).build();
+				return Response.status(Response.Status.NOT_FOUND).entity(err.toJson()).build();
 			} 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
